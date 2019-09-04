@@ -29,11 +29,11 @@ class extract():
 
 
         X_train, X_test, y_train, y_test = model_selection.train_test_split(self.dfreg.drop(['Adj Close'],1),
-                                                                            self.dfreg["Adj Close"], test_size=0.1)
-        X_train_np = np.array(preprocessing.scale(X_train))
-        X_test_np = np.array(preprocessing.scale(X_test))
-        y_train_np = np.array(preprocessing.scale(y_train))
-        y_test_np = np.array(preprocessing.scale(y_test))
+                                                                            self.dfreg["Adj Close"], test_size=0.1, shuffle=False)
+        X_train_np = np.array((X_train))
+        X_test_np = np.array((X_test))
+        y_train_np = np.array((y_train))
+        y_test_np = np.array((y_test))
 
         return X_train_np,X_test_np,y_train_np,y_test_np
 
