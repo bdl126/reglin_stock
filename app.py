@@ -1,42 +1,45 @@
 import sys
-import pandas as pd
-import datetime
-import pandas_datareader.data as web
-import math
-import numpy as np
-from sklearn import preprocessing, model_selection
-from pandas import Series, DataFrame
+
+
+from sklearn.linear_model import LinearRegression
+
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
 sys.path.insert(0, "function/")
+
+
+from DataExtractor import *
 from plot import *
 
-start = datetime.datetime(2010, 1, 1)
+data = extract()
 
-end = datetime.date.today()
+X_train, X_test, Y_train, Y_test=data.StockHistory()
 
-df = web.DataReader("AAPL", 'yahoo', start, end)
-dfreg=df
-#dfreg = df.loc[:,["Adj Close","Volume"]]
-dfreg["HL_PCT"] = (df["High"] - df["Low"]) / df["Close"] * 100.0
-dfreg["PCT_change"] = (df["Close"] - df["Open"]) / df["Open"] * 100.0
+plotGraph(data.getRawExtract())
 
 
-# Drop missing value
-dfreg.fillna(value=-99999, inplace=True)
-# We want to separate 1 percent of the data to forecast
-#forecast_out = int(math.ceil(0.01 * len(dfreg)))
-#forecast_col = 'Adj Close'
-#dfreg['label'] = dfreg[forecast_col].shift(-forecast_out)
 
-X_train, X_test, y_train, y_test = model_selection.train_test_split(dfreg.drop(['Adj Close'],1),
-                                                                    dfreg["Adj Close"], test_size=0.01)
 
-X = np.array(dfreg.drop(['label'], 1))
-X = preprocessing.scale(X)
-# Finally We want to find Data Series of late X and early X (train) for model generation and evaluation
-X_test = X[-forecast_out:]
-X_train = X[:-forecast_out]
 
-y = np.array(dfreg['label'])
-y = y[:-forecast_out]
 
-print(df.tail())
+
+#
+# clfreg = LinearRegression(n_jobs=-1)
+# clfreg.fit(X_train, Y_train)
+#
+#
+#
+# # Quadratic Regression 2
+# clfpoly2 = make_pipeline(PolynomialFeatures(2), Ridge())
+# clfpoly2.fit(X_train, Y_train)
+#
+# # Quadratic Regression 3
+# clfpoly3 = make_pipeline(PolynomialFeatures(3), Ridge())
+# clfpoly3.fit(X_train, Y_train)
+#
+#
+#
+# confidencereg = clfreg.score(X_test, Y_test)
+# confidencepoly2 = clfpoly2.score(X_test, Y_test)
+# confidencepoly3 = clfpoly3.score(X_test,Y_test)
