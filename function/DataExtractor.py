@@ -9,12 +9,12 @@ from sklearn.linear_model import LinearRegression
 sys.path.insert(0, "function/")
 
 
-class extract():
+class DataExtractor():
 
     def __init__(self):
         self.dfreg=0
 
-    def StockHistory(self):
+    def extract(self):
 
         start = datetime.datetime(2010, 1, 1)
 

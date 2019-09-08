@@ -8,15 +8,15 @@ from RegClf import *
 
 
 #data extraction
-data = extract()
-X_train, X_test, Y_train, Y_test=data.StockHistory()
+data = DataExtractor()
+X_train, X_test, Y_train, Y_test=data.extract()
 
 #fit and choose are regressions
-regression= RegClf(X_train, X_test, Y_train, Y_test)
+regression= RegressionClassifier(X_train, X_test, Y_train, Y_test)
 
 #choose are regression types
 
-regression.clftype([2,3,4,5,6])
+regression.defineClassifierType([2, 3, 4, 5, 6])
 regression.fit()
 regression.predict()
 regression.score()
